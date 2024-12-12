@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Alpaca Runner</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #90EE90;
+            font-family: Arial, sans-serif;
+        }
+        #gameContainer {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
+        canvas {
+            display: block;
+        }
+        #gameOver {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px 40px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            z-index: 100;
+        }
+        #gameOver h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        #gameOver p {
+            margin: 10px 0;
+            color: #666;
+        }
+        #gameOver button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 15px;
+            transition: background 0.3s;
+        }
+        #gameOver button:hover {
+            background: #45a049;
+        }
+        .mobile-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+        }
+        .control-button {
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 24px;
+            cursor: pointer;
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        @media (hover: hover) {
+            .mobile-controls {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas"></canvas>
+        <div id="gameOver">
+            <h2>Game Over!</h2>
+            <p>Score: <span id="finalScore">0</span> carrots</p>
+            <div id="highScores"></div>
+            <button onclick="resetGame()">Play Again</button>
+        </div>
+        <div class="mobile-controls">
+            <button class="control-button" id="upButton">↑</button>
+            <button class="control-button" id="downButton">↓</button>
+        </div>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html>
