@@ -99,28 +99,33 @@ document.addEventListener('keyup', (e) => {
 });
 
 // Touch controls
-const upButton = document.getElementById('upButton');
-const downButton = document.getElementById('downButton');
-
-if (upButton && downButton) {
-    upButton.addEventListener('touchstart', (e) => {
-        e.preventDefault();
+function handleTouch(event, direction) {
+    event.preventDefault();
+    if (direction === 'up') {
         keys.ArrowUp = true;
-    });
-    upButton.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        keys.ArrowUp = false;
-    });
-    
-    downButton.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        keys.ArrowDown = true;
-    });
-    downButton.addEventListener('touchend', (e) => {
-        e.preventDefault();
         keys.ArrowDown = false;
-    });
+    } else if (direction === 'down') {
+        keys.ArrowDown = true;
+        keys.ArrowUp = false;
+    } else if (direction === 'stop') {
+        keys.ArrowUp = false;
+        keys.ArrowDown = false;
+    }
 }
+
+// Make handleTouch available globally
+window.handleTouch = handleTouch;
+
+// Prevent default touch behavior
+document.addEventListener('touchstart', function(e) {
+    if (e.target.closest('.control-button')) {
+        e.preventDefault();
+    }
+}, { passive: false });
+
+document.addEventListener('touchmove', function(e) {
+    e.preventDefault();
+}, { passive: false });
 
 // Game state
 let isGameOver = false;
@@ -158,12 +163,12 @@ function drawBackground() {
 function update() {
     if (isGameOver) return;
 
-    // Update alpaca position
+    // Update alpaca position with smoother movement
     if (keys.ArrowUp && alpaca.y > alpaca.height/2) {
-        alpaca.y -= alpaca.speed;
+        alpaca.y = Math.max(alpaca.height/2, alpaca.y - alpaca.speed);
     }
     if (keys.ArrowDown && alpaca.y < canvas.height - alpaca.height/2) {
-        alpaca.y += alpaca.speed;
+        alpaca.y = Math.min(canvas.height - alpaca.height/2, alpaca.y + alpaca.speed);
     }
 
     // Update game speed

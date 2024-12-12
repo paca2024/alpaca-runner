@@ -59,25 +59,38 @@
             background: #45a049;
         }
         .mobile-controls {
-            position: absolute;
+            position: fixed;
             bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
+            left: 0;
+            right: 0;
             display: flex;
-            gap: 20px;
+            justify-content: center;
+            gap: 40px;
+            z-index: 1000;
+            padding: 20px;
         }
         .control-button {
             background: rgba(255, 255, 255, 0.8);
             border: none;
-            padding: 15px 30px;
-            border-radius: 10px;
-            font-size: 24px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            font-size: 30px;
             cursor: pointer;
             touch-action: manipulation;
             user-select: none;
             -webkit-user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
-        @media (hover: hover) {
+        .control-button:active {
+            transform: scale(0.95);
+            background: rgba(255, 255, 255, 0.9);
+        }
+        /* Hide controls on desktop */
+        @media (min-width: 1024px) {
             .mobile-controls {
                 display: none;
             }
@@ -94,8 +107,8 @@
             <button onclick="resetGame()">Play Again</button>
         </div>
         <div class="mobile-controls">
-            <button class="control-button" id="upButton">↑</button>
-            <button class="control-button" id="downButton">↓</button>
+            <button class="control-button" id="upButton" ontouchstart="handleTouch(event, 'up')" ontouchend="handleTouch(event, 'stop')">↑</button>
+            <button class="control-button" id="downButton" ontouchstart="handleTouch(event, 'down')" ontouchend="handleTouch(event, 'stop')">↓</button>
         </div>
     </div>
     <script src="game.js"></script>
